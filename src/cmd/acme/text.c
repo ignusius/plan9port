@@ -36,6 +36,7 @@ textinit(Text *t, File *f, Rectangle r, Reffont *rf, Image *cols[NCOL])
 	t->tabstop = maxtab;
 	memmove(t->fr.cols, cols, sizeof t->fr.cols);
 	textredraw(t, r, rf->f, screen, -1);
+	
 }
 
 void
@@ -43,12 +44,15 @@ textredraw(Text *t, Rectangle r, Font *f, Image *b, int odx)
 {
 	int maxt;
 	Rectangle rr;
+	//if (t == "main")
+	//textcols[TEXT]=allocimage(display, Rect(0,0,1,1), RGBA32, 1, 0xc0c5ceFF);
 
 	frinit(&t->fr, r, f, b, t->fr.cols);
 	rr = t->fr.r;
 	rr.min.x -= Scrollwid+Scrollgap;	/* back fill to scroll bar */
 	if(!t->fr.noredraw)
 		draw(t->fr.b, rr, t->fr.cols[BACK], nil, ZP);
+	
 	/* use no wider than 3-space tabs in a directory */
 	maxt = maxtab;
 	if(t->what == Body){
@@ -592,7 +596,7 @@ textcomplete(Text *t)
 	Completion *c;
 	char *s, *dirs;
 	Runestr dir;
-
+	
 	/* control-f: filename completion; works back to white space or / */
 	if(t->q0<t->file->b.nc && textreadc(t, t->q0)>' ')	/* must be at end of word */
 		return nil;
@@ -745,14 +749,16 @@ texttype(Text *t, Rune r)
 		} else
 			textshow(t, t->file->b.nc, t->file->b.nc, FALSE);
 		return;
-	case 0x01:	/* ^A: beginning of line */
+	case 0x01:	
 		typecommit(t);
-		/* go to where ^U would erase, if not already at BOL */
+		
 		nnb = 0;
 		if(t->q0>0 && textreadc(t, t->q0-1)!='\n')
 			nnb = textbswidth(t, 0x15);
 		textshow(t, t->q0-nnb, t->q0-nnb, TRUE);
 		return;
+		
+	
 	case 0x05:	/* ^E: end of line */
 		typecommit(t);
 		q0 = t->q0;
@@ -760,18 +766,32 @@ texttype(Text *t, Rune r)
 			q0++;
 		textshow(t, q0, q0, TRUE);
 		return;
-	case Kcmd+'c':	/* %C: copy */
+	//case Kcmd+'c':	/* %C: copy */
+	case 0x03:
 		typecommit(t);
 		cut(t, t, nil, TRUE, FALSE, nil, 0);
 		return;
-	case Kcmd+'z':	/* %Z: undo */
+	//case Kcmd+'z':	/* %Z: undo */
+	case 0x1a:
 	 	typecommit(t);
 		undo(t, nil, nil, TRUE, 0, nil, 0);
 		return;
-	case Kcmd+'Z':	/* %-shift-Z: redo */
+	case 0x19:
+	//case Kcmd+'Y':	/* %Y: redo */
 	 	typecommit(t);
 		undo(t, nil, nil, FALSE, 0, nil, 0);
-		return;		
+		return;	
+	case 0x13:
+	//case Kcmd+'S':	/* %S: Put */
+	 	typecommit(t);
+		put(t, nil, nil, FALSE, 0, nil, 0);
+		return;	
+		case 0x07:
+	//case Kcmd+'G':	/* %G: Get */
+	 	typecommit(t);
+		get(t, nil, nil, FALSE, 0, nil, 0);
+		return;	
+		
 
 	Tagdown:
 		/* expand tag to show all text */
@@ -796,7 +816,8 @@ texttype(Text *t, Rune r)
 	}
 	/* cut/paste must be done after the seq++/filemark */
 	switch(r){
-	case Kcmd+'x':	/* %X: cut */
+	//case Kcmd+'x':	/* %X: cut */
+	case 0x18:
 		typecommit(t);
 		if(t->what == Body){
 			seq++;
@@ -806,7 +827,8 @@ texttype(Text *t, Rune r)
 		textshow(t, t->q0, t->q0, 1);
 		t->iq1 = t->q0;
 		return;
-	case Kcmd+'v':	/* %V: paste */
+	//case Kcmd+'v':	/* %V: paste */
+	case 0x16:
 		typecommit(t);
 		if(t->what == Body){
 			seq++;
@@ -826,6 +848,7 @@ texttype(Text *t, Rune r)
 	textshow(t, t->q0, t->q0, 1);
 	switch(r){
 	case 0x06:	/* ^F: complete */
+	//case 0x09: /* Tab key*/
 	case Kins:
 		typecommit(t);
 		rp = textcomplete(t);
@@ -833,6 +856,11 @@ texttype(Text *t, Rune r)
 			return;
 		nr = runestrlen(rp);
 		break;	/* fall through to normal insertion case */
+		
+
+
+
+	
 	case 0x1B:
 		if(t->eq0 != ~0) {
 			if(t->eq0 <= t->q0)
@@ -903,6 +931,8 @@ texttype(Text *t, Rune r)
 		}
 		break; /* fall through to normal code */
 	}
+	
+
 	/* otherwise ordinary character; just insert, typically in caches of all texts */
 	for(i=0; i<t->file->ntext; i++){
 		u = t->file->text[i];
