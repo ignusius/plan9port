@@ -3,9 +3,9 @@ This is a port of many Plan 9 libraries and programs to Unix with my little fix.
 Difference from plan9port
 -------------------------
 
-*Fix acme shortcut for linux
-*add ttf2subf and droid-sans fonts
-*Testing only linux systems.
+* Fix acme shortcut for linux
+* Add ttf2subf and droid-sans fonts
+* Testing only linux systems.
 
 Installation
 ------------
