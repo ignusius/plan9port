@@ -57,7 +57,7 @@ acme -f ~/plan9/font/droid/droid.14.font
 ```
 or convert your lovely font and use it:
 ```
-ttf2subf -s 17 -f example.ttf -n example -m antialias
+ttf2subf -s 14 -f example.ttf -n example -m antialias
 acme -f ~/you/path/example/example.14.font
 ```
 
