@@ -41,11 +41,26 @@ You can use Git to keep your local copy up-to-date as we make
 changes and fix bugs.  See the git(1) man page here ("9 man git")
 for details on using Git.
 
-Status
+Note
 ------
 
-[![Build Status](https://travis-ci.org/9fans/plan9port.svg?branch=master)](https://travis-ci.org/9fans/plan9port)
-[![Coverity Scan Build Status](https://scan.coverity.com/projects/plan-9-from-user-space/badge.svg)](https://scan.coverity.com/projects/plan-9-from-user-space)
+Acme and fonts
+
+You can use fontsrv, for example:
+```
+fontsrv -m ~/font/
+acme  -f ~/font/Ubuntu/11a/font
+```
+or use Droid-sans font:
+```
+acme -f ~/plan9/font/droid/droid.14.font
+```
+or convert your lovely font and use it:
+```
+ttf2subf -s 17 -f example.ttf -n example -m antialias
+acme -f ~/you/path/example/example.14.font
+```
+
 
 
 Contact
