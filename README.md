@@ -1,4 +1,11 @@
-This is a port of many Plan 9 libraries and programs to Unix.
+This is a port of many Plan 9 libraries and programs to Unix with my little fix.
+
+Difference from plan9port
+-------------------------
+
+*Fix acme shortcut for linux
+*add ttf2subf and droid-sans fonts
+*Testing only linux systems.
 
 Installation
 ------------
@@ -43,6 +50,7 @@ Status
 
 Contact
 -------
+* Maintainer this fork: Alexander Komarov <ignusius@gmail.com>
 
 * Mailing list: https://groups.google.com/group/plan9port-dev
 * Issue tracker: https://github.com/9fans/plan9port/issues
