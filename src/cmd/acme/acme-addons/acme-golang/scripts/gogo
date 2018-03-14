@@ -1,0 +1,2 @@
+#!/bin/bash
+echo 'gocomp gorun goformat'  | 9p write acme/$winid/tag 

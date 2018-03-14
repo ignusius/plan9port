@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo put | 9p write acme/$winid/ctl
+tag=$(9p read acme/$winid/tag | awk '{print $1}')
+
+go run  $tag
+

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+# Copyright: (c) Vasudev Kamath <kamathvasudev@gmail.com>, 2014 under the
+# terms and conditions of MIT/Expat.
+
+tmp=$(mktemp --tmpdir=$(pwd))
+etmp=$(mktemp --tmpdir=$(pwd))
+
+cleanup() {
+	rm -f "$tmp" "$etmp"
+}
+
+trap cleanup 0 INT QUIT
+
+9p read acme/$winid/body | gofmt >"$tmp" 2>"$etmp"
+
+if [ $(wc -l "$etmp" | awk '{print $1}') -eq 0 ]; then
+	if  ! $(9p read acme/$winid/body | cmp $tmp /dev/stdin); then
+		echo -n "1,$" | 9p write acme/$winid/addr
+		cat $tmp | 9p write acme/$winid/data
+		echo -n '#0' | 9p write acme/$winid/addr
+		echo -n "0,0" | 9p write acme/$winid/addr
+		
+	fi
+else
+	# error occured lets write the error window
+	cat "$etmp" | 9p write acme/new/body
+	last=$(9p ls acme | sort -g | tail -n 1)
+	echo -n "clean" | 9p write acme/$last/ctl
+	echo -n "0,0" | 9p write acme/$last/addr
+	echo -n "dot=addr" | 9p write acme/$last/ctl
+	echo -n "show" | 9p write acme/$last/ctl
+	
+fi
+

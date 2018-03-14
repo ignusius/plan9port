@@ -1,0 +1,7 @@
+#!/bin/sh
+
+go build gocomp.go
+cp gocomp $PLAN9/bin/
+cp scripts/* $PLAN9/bin/
+
+echo !!!Successful installation!!!
