@@ -6,6 +6,7 @@ Difference from plan9port
 * Fix acme shortcut for linux
 * Add ttf2subf and droid-sans fonts
 * Testing only linux systems.
+* Add acme-golang addon [see here](src/cmd/acme/acme-addons/acme-golang/)
 
 Installation
 ------------
