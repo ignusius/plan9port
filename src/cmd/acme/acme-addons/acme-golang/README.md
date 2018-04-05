@@ -6,9 +6,9 @@ $./INSTALL
 How it use?
 -----------
 Open acme and open golang source code. Run 'gogo' command.
-* gocomp use for autocomplete and godoc
-* goformat use for format code (gofmt)
-* gorun  use for run code (go run)
+* gocomp - autocomplete and godoc
+* goformat - format code (gofmt)
+* gorun  - run code (go run)
 
 
 License / Copyright
