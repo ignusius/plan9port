@@ -10,12 +10,29 @@ Difference from plan9port
 
 Installation
 ------------
+For ubuntu 18.04 LTS:
+```
+sudo apt-get install gcc libxext-dev  libfontconfig-dev libxt-dev
+```
+Download
+
+```
+git clone https://github.com/ignusius/plan9port
+```
 
 To install, run ./INSTALL.  It builds mk and then uses mk to
 run the rest of the installation.  
 
 For more details, see install(1), at install.txt in this directory
 and at https://9fans.github.io/plan9port/man/man1/install.html.
+
+Add PATH in ~/.profile
+```
+export PLAN9="$HOME/plan9ports"
+export PATH="$PATH:$PLAN9/bin"
+
+```
+Run acme!
 
 Documentation
 -------------
