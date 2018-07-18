@@ -61,6 +61,7 @@ for details on using Git.
 
 Note
 ------
+## Fonts
 
 Acme and fonts
 
@@ -138,7 +139,18 @@ acme -f ~/you/path/example/example.14.font
 - `Edit ,x/Plan9/ |tr a-z A-Z` replace all instances of Plan9 with upper case
 - `Edit 3,5x/^/ a/	/` indent lines 3..5 with 1 tab
 
+## Two and more open acme
+script 'a'
+```
+#!/home/user/plan9/bin/rc
 
+NAMESPACE = `{mktemp -d} 
+plumber >/dev/null >[2=1] 
+font = '/home/user/plan9/font/droid/droid.16.font' 
+exec $PLAN9/bin/acme -c 1 -ab -f $font -F $font $* 
+
+```
+run ```a 1.txt```
 
 Contact
 -------
