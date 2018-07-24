@@ -79,6 +79,10 @@ or convert your lovely font and use it:
 ttf2subf -s 14 -f example.ttf -n example -m antialias
 acme -f ~/you/path/example/example.14.font
 ```
+## Mouse chords
+
+![picture](acme-mouse-chords.png)
+
 ## Shortcuts and commands
 - `Edit =` find out the current line number 
 - `:13` goto 13th line
