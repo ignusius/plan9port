@@ -150,7 +150,7 @@ script 'a'
 
 NAMESPACE = `{mktemp -d} 
 plumber >/dev/null >[2=1] 
-font = '/home/user/plan9/font/droid/droid.16.font' 
+font = '$HOME/plan9/font/droid/droid.16.font' 
 exec $PLAN9/bin/acme -c 1 -ab -f $font -F $font $* 
 
 ```
